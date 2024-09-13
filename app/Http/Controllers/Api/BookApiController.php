@@ -1,6 +1,6 @@
 <?php
 
-	namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\BookRequest;
 use App\Services\BookService;
@@ -17,6 +17,31 @@ class BookApiController extends ApiController
             $this->validateExistence($id);
         }
         $this->bookService = $bookService;
+    }
+
+    /**
+     * @OA\Get(
+     *     path="/books",
+     *     operationId="getBooksList",
+     *     summary="Get list of books",
+     *     tags={"Books"},
+     *     @OA\Response(
+     *         response=200,
+     *         description="A list of books",
+     *         @OA\JsonContent(
+     *             type="array",
+     *             @OA\Items(ref="#/components/schemas/Book")
+     *         )
+     *     )
+     * )
+     */
+    public function index(): JsonResponse
+    {
+        $books = $this->bookService->getAllBooks();
+
+        return response()->json([
+            'data' => $books
+        ]);
     }
 
     /**
@@ -113,30 +138,6 @@ class BookApiController extends ApiController
             'message' => 'Book successfully deleted'
         ]);
     }
-    /**
-     * @OA\Get(
-     *     path="/books",
-     *     operationId="getBooksList",
-     *     summary="Get list of books",
-     *     tags={"Books"},
-     *     @OA\Response(
-     *         response=200,
-     *         description="A list of books",
-     *         @OA\JsonContent(
-     *             type="array",
-     *             @OA\Items(ref="#/components/schemas/Book")
-     *         )
-     *     )
-     * )
-     */
-    public function index(): JsonResponse
-    {
-        $books = $this->bookService->getAllBooks();
-
-        return response()->json([
-            'data' => $books
-        ]);
-    }
 
     /**
      * @OA\Get(
@@ -175,4 +176,3 @@ class BookApiController extends ApiController
         )->validate();
     }
 }
-

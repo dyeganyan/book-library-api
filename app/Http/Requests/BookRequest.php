@@ -62,7 +62,10 @@ class BookRequest extends FormRequest
             'title' => 'required|string|max:255',
             'author' => 'required|string|max:255',
             'year_published' => 'required|integer|min:1800',
-            'isbn' => ['required', 'string', 'size:13',
+            'isbn' => [
+                'required',
+                'string',
+                'size:13',
                 Rule::unique('books', 'isbn')->ignore(
                     $bookId && $updatingBook->isbn === $this->input('isbn')
                 ),

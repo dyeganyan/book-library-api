@@ -11,7 +11,7 @@ Route::prefix('/v1')->group(function () {
     Route::post('auth/logout', [AuthApiController::class, 'logout']);
     Route::post('auth/me', [AuthApiController::class, 'me']);
 
-    Route::middleware('auth:api')->group(function() {
+    Route::middleware('auth:api')->group(function () {
         Route::post('/books', [BookApiController::class, 'store']);
         Route::put('/books/{id}', [BookApiController::class, 'update']);
         Route::delete('/books/{id}', [BookApiController::class, 'destroy']);
@@ -19,6 +19,3 @@ Route::prefix('/v1')->group(function () {
         Route::get('/books/{id}', [BookApiController::class, 'show']);
     });
 });
-
-
-
